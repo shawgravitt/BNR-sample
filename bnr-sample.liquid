@@ -1,0 +1,85 @@
+<div class="page-hero">
+  <img src="{{ section.settings.hero_image | img_url: '1600x380' }}" alt="">
+  <h2>{{ page_title }}<span class="feature-dash"></span></h2>
+</div>
+
+<div class="wrapper wrapper--margins">
+    <div class="faq-menu clearfix">
+        <h3 class="grid__item one-quarter medium-down--one-whole">
+            Skip to Category:
+        </h3>
+        <ul class="grid__item three-quarters medium-down--one-whole ">
+        {% for block in section.blocks %}
+            {% if block.type == 'SectionHeader' %}
+                <li>
+                    <a href="#{{ block.settings.header | handleize }}">{{ block.settings.header }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+    <dl class="accordion">
+        {% for block in section.blocks %}
+            {% if block.type == 'SectionHeader' %}
+                <h3 id="{{ block.settings.header | handleize }}">
+                    {{ block.settings.header }}
+                </h3>
+            {% elsif block.type == 'QandA' %}
+                <dt class="closed">
+                    <a href="#">
+                        <span><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span> 
+                        {{ block.settings.question }}
+                    </a>
+                </dt>
+                <dd>
+                    {{ block.settings.answer }}
+                </dd>
+            {% endif %}
+        {% endfor %}
+    </dl>
+
+    
+</div>
+
+
+{% schema %}
+  {
+      "name": "FAQ Page",
+      "settings": [
+        {
+            "type" : "image_picker",
+            "id": "hero_image",
+            "label" : "Showcase Hero Image" 
+        }
+      ],
+      "blocks": [
+        {
+          "type": "QandA",
+          "name": "Question and Answer",
+          "settings": [
+            {
+                "type" : "text",
+                "id": "question",
+                "label" : "Question" 
+            },
+            {
+                "type" : "textarea",
+                "id": "answer",
+                "label" : "Answer" 
+            }
+          ]
+        },
+        {
+            "type": "SectionHeader",
+            "name": "Section Header",
+            "settings": [
+              {
+                  "type" : "text",
+                  "id": "header",
+                  "label" : "Section Header" 
+              }
+            ]
+        }
+      ]
+}
+{% endschema %}
